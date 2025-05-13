@@ -45,7 +45,7 @@ async function createArticle({
 
 async function deleteArticle({ articleId, userId }) {
   try {
-    const article = await ArticleModel.findById(articleId);
+    const article = await ArticleModel.findById(articleId).select("owner");
     if (article.owner.toString() !== userId) {
       const newError = new CustomHttpError({
         message: "O usuário não é dono desse artigo",

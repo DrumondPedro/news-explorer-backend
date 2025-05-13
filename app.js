@@ -10,6 +10,7 @@ import auth from "./middlewares/auth.js";
 import { signupRouter } from "./routes/signup.js";
 import { signinRouter } from "./routes/signin.js";
 import { userRouter } from "./routes/users.js";
+import { articleRouter } from "./routes/articles.js";
 
 import CustomHttpError from "./errors/CustomHttpError.js";
 
@@ -32,6 +33,7 @@ app.use("/signin", signinRouter);
 app.use(auth);
 
 app.use("/users", userRouter);
+app.use("/articles", articleRouter);
 
 app.use("", notFound);
 
