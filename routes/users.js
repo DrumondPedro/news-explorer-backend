@@ -1,14 +1,16 @@
 import { Router } from "express";
 
-import CustomHttpError from "../errors/CustomHttpError.js";
-
 import { sendUser } from "../controller/usersController.js";
+
+import CustomHttpError from "../errors/CustomHttpError.js";
+import { validateIdUser } from "../validator/userValidator.js";
 
 const userRouter = Router();
 
 userRouter.get("/me", async (req, res, next) => {
   const userId = req.user._id;
   try {
+    validateIdUser.parse({ userId });
     const user = await sendUser(userId);
     if (!user) {
       const newError = new CustomHttpError({
