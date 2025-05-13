@@ -2,8 +2,10 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 
-const app = express();
+import { connectDatabase } from "./data/database.js";
 
+const app = express();
+connectDatabase();
 const { PORT = 3000 } = process.env;
 
 app.use(express.json());
