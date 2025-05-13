@@ -4,6 +4,9 @@ import "dotenv/config";
 import { z } from "zod";
 
 import { connectDatabase } from "./data/database.js";
+
+import auth from "./middlewares/auth.js";
+
 import { signupRouter } from "./routes/signup.js";
 import { signinRouter } from "./routes/signin.js";
 import { userRouter } from "./routes/users.js";
@@ -25,6 +28,8 @@ const notFound = (req, res, next) => {
 
 app.use("/signup", signupRouter);
 app.use("/signin", signinRouter);
+
+app.use(auth);
 
 app.use("/users", userRouter);
 
