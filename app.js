@@ -6,6 +6,7 @@ import { z } from "zod";
 import { connectDatabase } from "./data/database.js";
 
 import auth from "./middlewares/auth.js";
+import { requestLogger, errorLogger } from "./middlewares/logger.js";
 
 import { signupRouter } from "./routes/signup.js";
 import { signinRouter } from "./routes/signin.js";
@@ -23,6 +24,8 @@ app.use(express.json());
 app.use(cors());
 app.options("*", cors());
 
+app.use(requestLogger);
+
 const notFound = (req, res, next) => {
   res.status(404).send({ message: "A solicitação não foi encontrada" });
 };
@@ -36,6 +39,8 @@ app.use("/users", userRouter);
 app.use("/articles", articleRouter);
 
 app.use("", notFound);
+
+app.use(errorLogger);
 
 app.use((error, req, res, next) => {
   if (error instanceof z.ZodError) {
