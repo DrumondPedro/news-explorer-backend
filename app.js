@@ -4,6 +4,7 @@ import "dotenv/config";
 import { z } from "zod";
 
 import { connectDatabase } from "./data/database.js";
+import { signupRouter } from "./routes/signup.js";
 import { userRouter } from "./routes/users.js";
 
 import CustomHttpError from "./errors/CustomHttpError.js";
@@ -20,6 +21,8 @@ app.options("*", cors());
 const notFound = (req, res, next) => {
   res.status(404).send({ message: "A solicitação não foi encontrada" });
 };
+
+app.use("/signup", signupRouter);
 
 app.use("/users", userRouter);
 
