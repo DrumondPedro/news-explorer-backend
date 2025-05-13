@@ -1,6 +1,11 @@
 import { Router } from "express";
 
 import CustomHttpError from "../errors/CustomHttpError.js";
+import {
+  validateGetArticle,
+  validateCreateArticle,
+  validateDeleteArticle,
+} from "../validator/articleValidator.js";
 
 import {
   sendArticles,
@@ -13,6 +18,7 @@ const articleRouter = Router();
 articleRouter.get("/", async (req, res, next) => {
   const ownerId = req.user._id;
   try {
+    validateGetArticle.parse({ ownerId });
     const articles = await sendArticles({ ownerId });
     if (!articles.length) {
       const newError = new CustomHttpError({
@@ -34,6 +40,16 @@ articleRouter.post("/", async (req, res, next) => {
   const { keyword, title, text, date, source, link, image } = req.body;
   const ownerId = req.user._id;
   try {
+    validateCreateArticle.parse({
+      keyword,
+      title,
+      text,
+      date,
+      source,
+      link,
+      image,
+      ownerId,
+    });
     const newArticle = await createArticle({
       keyword,
       title,
@@ -64,6 +80,7 @@ articleRouter.delete("/:articleId", async (req, res, next) => {
   const { articleId } = req.params;
   const userId = req.user._id;
   try {
+    validateDeleteArticle.parse({ articleId, userId });
     const deletedArticle = await deleteArticle({ articleId, userId });
     if (!deletedArticle) {
       const newError = new CustomHttpError({
