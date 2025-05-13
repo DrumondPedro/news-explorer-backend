@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 
 import { connectDatabase } from "./data/database.js";
+import { userRouter } from "./routes/users.js";
 
 const app = express();
 connectDatabase();
@@ -16,6 +17,8 @@ app.options("*", cors());
 const notFound = (req, res, next) => {
   res.status(404).send({ message: "A solicitação não foi encontrada" });
 };
+
+app.use("/users", userRouter);
 
 app.use("", notFound);
 

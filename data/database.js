@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 function connectDatabase() {
   mongoose
-    .connect("mongodb://localhost:27017/arounddb", {
+    .connect("mongodb://localhost:27017/newsexplorerdb", {
       serverSelectionTimeoutMS: 2000,
     })
     .then(() => console.log("MongoDB conectado com sucesso"))
